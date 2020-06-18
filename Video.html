@@ -1,0 +1,620 @@
+﻿<!DOCTYPE html>
+<html>
+<head style="height:100%;">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>VRFLY</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="css/yaogan.css" rel="stylesheet" />
+    <link href="css/newutovr.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/newutovr.js"></script>
+    <script>
+       
+
+        $(document).ready(function () {
+            lowinit();
+            tsjs();//提示穿越结束 弹窗位置
+            min_circular_margin();//小圆按钮默认位置 和 实时位置
+            triangle_up();//向上箭头默认位置
+            triangle_right();//向右箭头默认位置
+            triangle_lower();//向下箭头默认位置
+            triangle_left();//向左箭头默认位置
+            playing();
+
+        })
+
+        $(window).resize(function () {
+            tsjs();//提示穿越结束 弹窗位置
+            min_circular_margin();//小圆按钮默认位置 和 实时位置
+            triangle_up();//向上箭头默认位置
+            triangle_right();//向右箭头默认位置
+            triangle_lower();//向下箭头默认位置
+            triangle_left();//向左箭头默认位置
+        })
+
+        //提示穿越结束 弹窗位置
+        function tsjs() {
+            $(".tsjs").css("left", ($(window).width() - $(".tsjs").width()) / 2);
+            $(".tsjs").css("top", ($(window).height() - $(".tsjs").height()) / 2);
+        }
+
+        //穿越结束 倒计时
+        var time = 11;
+        function cydjs() {
+            if (time === 0) {
+                window.location.href = "/Home/AppHome?clickid=2"
+            } else {
+                time--;
+                $('#djstc').text(time);
+            }
+            setTimeout(function () {
+                cydjs();
+            }, 1000);
+        }
+
+        //小圆按钮默认位置 和 实时位置
+        function min_circular_margin() {
+            $(".min_circular").css({
+                "left": $(".max_circular").offset().left - $(".rocker_box").offset().left + 4.5,
+                "top": $(".max_circular").offset().top - $(".rocker_box").offset().top + 4.5,
+            })
+        }
+
+        //向↑箭头默认位置
+        function triangle_up() {
+            $(".triangle_up").css({
+                "left": $(".max_circular").offset().left - $(".rocker_box").offset().left + 32,
+                "top": $(".max_circular").offset().top - $(".rocker_box").offset().top + 15,
+            })
+        }
+
+        //向→箭头默认位置
+        function triangle_right() {
+            $(".triangle_right").css({
+                "left": $(".max_circular").offset().left - $(".rocker_box").offset().left + 55,
+                "top": $(".max_circular").offset().top - $(".rocker_box").offset().top + 32,
+            })
+        }
+
+        //向↓箭头默认位置
+        function triangle_lower() {
+            $(".triangle_lower ").css({
+                "left": $(".max_circular").offset().left - $(".rocker_box").offset().left + 32,
+                "top": + $(".max_circular").offset().top - $(".rocker_box").offset().top + 55,
+            })
+        }
+
+        //向←箭头默认位置
+        function triangle_left() {
+            $(".triangle_left ").css({
+                "left": $(".max_circular").offset().left - $(".rocker_box").offset().left + 14,
+                "top": + $(".max_circular").offset().top - $(".rocker_box").offset().top + 32,
+            })
+        }
+
+
+
+
+    </script>
+    <script>
+        var playerObj = null;
+        /*播放器参数配置*/
+        //videoPath = null;
+        var params = {
+            container: document.getElementById("panoDesk"),
+            name: "SceneViewer",
+            dragDirectionMode: true,
+            isAutoRotate: false,
+            isVideoAutoPlay: false,
+
+            isGyro: false,//初始是否开启陀螺仪   api_ToggleGyro
+            isDragAble: false,//是否可以手动拖拽
+            scenesArr: [
+                //todo:注意修改视频路径，需要保证播放页面与视频属于同一域名下
+                {
+                    sceneId: "v1",
+                    sceneName: "全景视频",
+                    sceneFilePath: videoPath,
+                    sceneType: "Video",
+
+                    fullScreenMode: false,
+                    initFov: 120,
+                    isVideoLoop: false,
+
+                }
+            ],
+            //播放器不支持全景播放回调
+            errorCallBack: function (e) {
+                console.log("错误状态：" + e);
+            },
+            //浏览器不支持全屏回调
+            fsCallBack: function (status, playObj) {
+                alert("浏览器不支持全屏！");
+            },
+            loadedCallBack: function () {
+                $(".zsygbfan").show();
+                //playerObj.api_setVideoPlay();
+                //playing();
+            },
+            //视频播放回调
+            videoPlayerCallBack: function () {
+                playerObj.api_changeFLength(50);
+                console.log("zzzzz")
+                playerObj.FLength = 50;
+            },
+            initOverCallBack: function () {
+                playerObj = this;
+                //playerObj.api_OpenGyro();
+
+            },
+            videoPlayEndCallBack: function () {
+                zttcClick();
+            },
+            loadedStartCallBack: function () {
+                $("#videoToolbar").hide()
+                $("#beginLayerImg").remove();
+            }
+
+        };
+        /*初始化开始*/
+        window.onload = function () {
+            initLoad(params);
+        };
+
+        //显示中途退出弹窗
+        function returnOnClick() {
+            $(".zttc_box").show();
+            //wx.miniProgram.redirectTo({
+            //    url: '../utovrreturn/utovrreturn'
+            //});
+        }
+        //中途退出确定按钮
+        function zttcClick() {
+            wx.miniProgram.redirectTo({
+                url: '../utovrreturn/utovrreturn'
+            });
+        }
+        function zttcCancel() {
+            $(".zttc_box").hide();
+        }
+        //中途退出取消按钮
+    </script>
+</head>
+<body style="margin:0px;overflow: hidden;height: 100%;" scroll="no">
+
+    <div id="div" style=" width: 100%;height: 100%;"></div>
+    <script src="three/build/three.js"></script>
+    <!--<script src="three/examples/js/controls/TrackballControls.js"></script>-->
+    <script src="three/examples/js/controls/OrbitControls.js"></script>
+    <script src="three/examples/js/controls/DeviceOrientationControls.js"></script>
+
+    <script src="VrVideo.js"></script>
+    <script>
+        var vrvideo = new VRVideoPlayer({
+            eid: "div",
+            src: "2.mp4",
+            istonchcontrol: false,
+            isdevicecontrol: false
+        });
+    </script>
+
+    <!--@*<img src="~/vrfly/img/111.png" style="width:100%;height:412px;position:absolute;z-index:1;" />  *@-->
+
+    <div class="blackjb"></div> <!--@*顶部黑色到透明渐变*@-->
+
+    <div class="jdtbox">
+        <span style="width:40%;" data-bind="style:{width:vm.rate()+'px'}"></span>
+    </div>
+
+    <!--@*顶部拍照数量和拍摄数量*@-->
+    <div class="numberbox">
+        <div class="photobox">
+            <img src="vrfly/img/pzslmr.png" />
+            <div class="pzrqbox">
+                <p data-bind="text:surplusCount">5</p>
+                <p>/</p>
+                <p data-bind="text:photoCount">12</p>
+            </div>
+
+        </div>
+        <!--@*<div class="videobox">
+                <img src="~/vrfly/img/psslmr.png" />
+                <p data-bind="text:viedoCount">1</p>
+                <p>/</p>
+                <p data-bind="text:viedoCount">3</p>
+            </div>*@-->
+    </div>
+
+    <!--@*九宫格和陀螺仪*@
+    @*<div class="jggtlybox">*@
+        @*<a onclick="jggf()"><img id="jgg" src="~/vrfly/img/jggmr.png" /></a>*@
+        @*<a onclick="tlya()"><img id="tly" src="~/vrfly/img/tlyxz.png" /></a>*@
+    @*</div>*@
+
+    @*九宫格辅助线*@
+    @*<div class="jggfzx">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>*@
+
+    @*<video controls  upTrueFale    src=videoPath id="myvideo" x5-video-player-fullscreen="true" x5-video-player-type="h5" playsinline="true" x5-video-orientation="landscape|portrait" x-webkit-airplay="true" webkit-playsinline="true" crossorigin="anonymous" style="position:absolute;left:0;top:0;z-index:1;width:100%;height:100%;opacity:0;pointer-events:none;"></video>*@-->
+
+    <div id="panoDesk" style="z-index:1;position:absolute; width: 100%;height: 100%; overflow: hidden; padding: 0px; margin: 0px; left:0;top:0;"></div>
+    <!--@*播放按钮*@-->
+    <a class="zsygbfan" onclick="playing(); playerObj.api_setVideoPlay()">
+        <img src="vrfly/img/play.png" />
+    </a>
+
+
+    <!--@*返回按钮*@
+    @*<a onclick="returnOnClick()" class="backb">
+            <img src="~/vrfly/img/back2.png" />
+            <p id="djs">86</p>
+            <p>秒后结束</p>
+        </a>*@-->
+    <a onclick="returnOnClick()" class="backb2">
+        <p id="djs">86</p>
+    </a>
+    <div id="tc" style="color:azure;text-align:center;margin-left:100px auto;display: none; width: 200px; height: 50px; position: absolute; bottom:20px;margin:0 auto; background-color: rgb(45, 45, 45); z-index: 5000; opacity:0.7; background-position: initial initial; background-repeat: initial initial;">
+        <div>请不要快速点击拍摄照片</div>
+    </div>
+
+
+    <!--@*拍照按钮 *@-->
+    <div class="pzbox" onclick="playaudio()">
+        <div class="pzlxbox">
+            <div class="maxradius"></div>
+            <a class="a1 add-to-cart"></a>
+        </div>
+    </div>
+
+    <!--@*拍照按钮椭圆半透明背景图 无需绑定*@-->
+    <div class="azbox">
+        <span></span>
+        <span></span>
+    </div>
+
+
+    <!--@*刻度条*@-->
+    <canvas id="fcanvas"></canvas>
+    <p class="dqbc">1X</p>
+
+    <!--@*结束弹窗*@
+    @*显示弹窗 调用 overpop();*@
+    @*<div class="overpopbox">
+            <div class="overpop">
+                <p>您所拍摄的高清视频与照片可前往<br> “我的-作品”下载</p>
+                <a onclick="queren()">确认</a>
+            </div>
+        </div>*@-->
+    <!--@*摇杆*@-->
+    <div class="rocker_box">
+        <div class="max_circular"></div>
+        <a class="min_circular" id="min_circular"></a>
+        <span class="triangle triangle_up ss_up"></span>
+        <span class="triangle triangle_lower ss_lower"></span>
+        <span class="triangle triangle_left ss_left"></span>
+        <span class="triangle triangle_right ss_right"></span>
+    </div>
+
+    <!--@*中途退出遮罩*@-->
+    <div style="display:none" class="zttc_box">
+        <p>VRfly未结束，是否提前退出</p>
+        <div class="minbox">
+            <div class="box">
+                <a onabort="zttcClick()">退出</a>
+                <a onclick="zttcCancel()">取消</a>
+            </div>
+        </div>
+    </div>
+
+    <!--@*<p style="position:absolute;top:50px;left:50px;color:white;z-index:9999999;width:500px;height:auto;font-size:12px;" class="ppp"></p>*@-->
+
+    <script>
+        var ee;
+        var longClick = 0;
+        var my;
+        var mx;
+        var umy; //我们移动的 X 距离
+        var umx; //我们移动的Y 距离
+        var istart = false;
+        var umxyc = 4;
+        var nowParam;
+        function translateCamera() {
+            var timeid = setInterval(() => {
+                if (!istart) {
+                    clearInterval(timeid);
+                }
+
+                try {
+                    nowParam = playerObj.api_getCurScenePTF();
+                    //console.info(umx, umy)
+                    if (Math.abs(umx) > umxyc) {
+                        nowParam.pan += (umx - umx / 2) / 30;
+                    }
+                    if (Math.abs(umy) > umxyc) {
+                        nowParam.tilt -= (umy - umy / 2) / 30;
+                    }
+                    console.info(nowParam.pan);
+                    playerObj.api_setPanTiltFov(nowParam.pan, nowParam.tilt, nowParam.fov);
+                } catch (e) {
+
+                }
+
+            }, 20);
+
+        }
+
+        //闪烁加速
+        function speed(sp) {
+            if (sp >= 40) {
+                return "0.1s";
+            } else {
+                return "0.5s";
+            }
+        }
+
+        var t_touch;
+        var t_cy;
+        var t_cx;
+        var t_radis;
+        var t_cenbl;
+        var t_maxx;
+        var t_maxy;
+        var t_ux;
+        var t_uy;
+        var t_y;
+        var t_x;
+        var t_leftt;
+        var t_topp;
+        var t_up_xy;
+
+        var t_btnxy;
+        var t_upbtn;
+        $(".rocker_box").on({
+            touchstart: function (e) {
+                var yaogan = document.getElementById('yaogan');/*长按时播放音效*/
+                yaogan.play();
+                istart = true;
+                translateCamera();
+                var touch = e.originalEvent.targetTouches[0];
+                ee = e.originalEvent;
+                var leftt = $(".rocker_box").offset().left;
+                var topp = $(".rocker_box").offset().top;
+
+                my = touch.pageY;
+                mx = touch.pageX;
+
+                var y = touch.pageY - topp - 30;
+                var x = touch.pageX - leftt - 30;
+
+                longClick = 0;//设置初始为0
+                timeOutEvent = setTimeout(function () {
+                    //此处为长按事件-----在此显示遮罩层及删除按钮
+                    longClick = 1;//假如长按，则设置为1
+                }, 500);
+                $(".max_circular").css({
+                    "left": x,
+                    "top": y,
+                })
+
+                //按下按钮后，小圆按钮border隐藏
+                $(".min_circular").css({
+                    "left": x + 7.5,
+                    "top": y + 7.5,
+                    "border-color": "transparent"
+                })
+                $(".max_circular").removeClass("min_flash").addClass("max_flash");
+
+
+                console.log(1);
+                triangle_up();//向上箭头默认位置
+                triangle_right();//向右箭头默认位置
+                triangle_lower();//向下箭头默认位置
+                triangle_left();//向左箭头默认位置
+
+                //箭头向上移动动画
+                $(".triangle_up").stop(true, false);
+                $(".triangle_up").animate({
+                    top: $(".max_circular").offset().top - $(".rocker_box").offset().top - 45,
+                });
+
+                //箭头向右移动动画
+                $(".triangle_right").stop(true, false);
+                $(".triangle_right").animate({
+                    left: $(".max_circular").offset().left - $(".rocker_box").offset().left + 108,
+                });
+
+                //箭头向下移动动画
+                $(".triangle_lower").stop(true, false);
+                $(".triangle_lower").animate({
+                    top: $(".max_circular").offset().top - $(".rocker_box").offset().top + 108,
+                });
+
+                //箭头向左移动动画
+                $(".triangle_left").stop(true, false);
+                $(".triangle_left").animate({
+                    left: $(".max_circular").offset().left - $(".rocker_box").offset().left - 45,
+                });
+
+                //点击后 显示4个箭头
+                $(".triangle").css("opacity", "0.7");
+
+            },
+            touchmove: function (e) {
+                t_touch = e.originalEvent.targetTouches[0];
+                clearTimeout(timeOutEvent);
+                timeOutEvent = 0;
+                e.preventDefault();
+                ee = e.originalEvent;
+
+                t_cy = t_touch.pageY - my;//计算差值 y
+                t_cx = t_touch.pageX - mx;//计算差值 x
+                t_radis = Math.sqrt(t_cy * t_cy + t_cx * t_cx); //  计算两点间距离，三角函数
+                t_cenbl = 90 / t_radis; //  计算 三角边长比例
+                t_maxx = t_cenbl * t_cx; // 计算 最大值
+                t_maxy = t_cenbl * t_cy; // 计算 最大值
+                // 计算处理 最大可移动距离
+
+                if (t_radis > 70) {
+                    t_ux = mx + t_maxx;
+                    t_uy = my + t_maxy;
+                } else {
+                    t_uy = t_touch.pageY;
+                    t_ux = t_touch.pageX;
+                }
+
+
+                t_leftt = $(".rocker_box").offset().left;
+                t_topp = $(".rocker_box").offset().top;
+                t_y = t_uy - t_topp - 30;
+                t_x = t_ux - t_leftt - 30;
+
+
+                $(".min_circular").css({
+                    "left": t_x + 7.5,
+                    "top": t_y + 7.5,
+                });
+
+                //向上滑动时箭头闪烁
+                t_up_xy = $(".triangle_up").offset().top - $(".rocker_box").offset().top + 15;
+                t_btnxy = $(".min_circular").offset().top - $(".rocker_box").offset().top + 4.5;
+                t_upbtn = t_up_xy - t_btnxy;
+
+
+                umy = t_uy - my;//摇杆，与初始位置的 偏移 y
+                umx = t_ux - mx;//摇杆，与初始位置的 偏移 x
+
+
+                $(".ss_up").css("animation-duration", "0s");/*Y上动画关闭*/
+                $(".ss_lower").css("animation-duration", "0s");/*Y下动画关闭*/
+                $(".ss_left").css("animation-duration", "0s");/*X左动画关闭*/
+                $(".ss_right").css("animation-duration", "0s");/*X左动画关闭*/
+
+
+                if (Math.abs(umy) > umxyc) {
+                    if (umy > 0) {
+                        $(".ss_lower").css("animation-duration", speed(Math.abs(umy)));// y 的 下
+                    } else {
+                        $(".ss_up").css("animation-duration", speed(Math.abs(umy)));// y 的 上
+                    }
+
+                }
+                if (Math.abs(umx) > umxyc) {
+
+                    if (umx > 0) {
+                        $(".ss_right").css("animation-duration", speed(Math.abs(umx)));// x 的 右
+                    } else {
+                        $(".ss_left").css("animation-duration", speed(Math.abs(umx)));// x 的 上
+                    }
+                }
+
+
+
+
+            },
+            touchend: function (e) {
+                var yaogan = document.getElementById('yaogan');/*长按时播放音效*/
+                yaogan.play();
+                //$(".rocker_box").animate({
+                //    opacity: 0,
+                //})
+                //setTimeout(function () {
+                //    $(".rocker_box").animate({
+                //        opacity: 1,
+                //    })
+                //}, 500)
+                istart = false;
+                clearTimeout(timeOutEvent);
+                if (timeOutEvent != 0 && longClick == 0) {//点击
+                    //此处为点击事件----在此处添加跳转详情页
+                }
+                $(".max_circular").removeClass("max_flash").addClass("min_flash");
+                //min_circular_margin();  //小圆按钮默认位置 和 实时位置
+
+                //松开按钮后，小圆按钮border恢复颜色
+                $(".min_circular").css({
+                    "border-color": "rgba(255,255,255,0)"
+                })
+
+                //箭头向上移动动画
+                $(".triangle_up").css({
+                    top: $(".max_circular").offset().top - $(".rocker_box").offset().top + 15,
+                });
+
+
+                //箭头向右移动动画
+                $(".triangle_right").css({
+                    left: $(".max_circular").offset().left - $(".rocker_box").offset().left + 55,
+
+                });
+
+                //箭头向下移动动画
+                $(".triangle_lower").css({
+                    top: + $(".max_circular").offset().top - $(".rocker_box").offset().top + 55,
+
+                });
+
+                //箭头向左移动动画
+                $(".triangle_left").css({
+                    left: $(".max_circular").offset().left - $(".rocker_box").offset().left + 14,
+
+                });
+
+                //setTimeout(function () {
+                //    $(".triangle_up,.triangle_right, .triangle_lower, .triangle_left").animate({
+                //        opacity:1,
+                //    });
+                //},1000)
+
+
+
+
+                //停止移动后，关闭所有三角闪烁动画
+                $(".ss_up,.ss_lower, .ss_left, .ss_right").css("animation-duration", "0s");
+
+                $(".max_circular").css({
+                    "left": "10%",
+                    "top": "58.5%",
+                });
+                $(".min_circular").css({
+                    "left": "11.2%",
+                    "top": "60%",
+                });
+
+                setTimeout(function () {
+                    triangle_up();//向上箭头默认位置
+                    triangle_right();//向右箭头默认位置
+                    triangle_lower();//向下箭头默认位置
+                    triangle_left();//向左箭头默认位置
+                }, 0)
+
+                //停止移动后 隐藏4个箭头0
+                $(".triangle").css("opacity", "0");
+
+
+                return false;
+            }
+        });
+    </script>
+
+
+    <!--@*音效*@-->
+    <audio id="myaudio" src="~/vrfly/img/paizhao.wav"></audio>
+    <audio id="myaudio2" src="~/vrfly/img/open.wav"></audio>
+    <audio id="myaudio3" src="~/vrfly/img/close.wav"></audio>
+    <audio id="yaogan" src="~/vrfly/img/yaogan.wav"></audio>
+    <audio id="kai" src="~/vrfly/img/kai.mp3"></audio>
+    <audio id="kai2" src="~/vrfly/img/kai.mp3"></audio>
+    <audio id="guan" src="~/vrfly/img/guan.mp3"></audio>
+    <audio id="guan2" src="~/vrfly/img/guan.mp3"></audio>
+    <audio id="bianyuan" src="~/vrfly/img/bianyuan.mp3"></audio>
+    <audio id="playaudio" src="~/vrfly/img/play.mp3"></audio>
+    <div class="maxtran"></div>
+</body>
+</html>
+
+
