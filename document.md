@@ -76,22 +76,29 @@
 
 
 
-## 内核
+## 插件
+### 1. VRPlayButton.js
+                            作者:李守峰 2020年6月18日
+> 移动端无法自动自动播放可以将 autoplay :false ,插件.VRPlayButton
+> 可在VrVideoPlayer 中显示 一个播放按钮
 
-    // 初始化 模型
-     initGeometry 
-    //初始化vedeo 
-     initVideo 
-    //初始化Texture
-     initTexture 
-    //初始化 Canvas
-     initCanvas 
-    // 初始化 Camara
-     initCamara 
-    //初始化 WebGLRenderer
-     initWebGLRenderer 
-    //初始化 Material
-     initMaterial 
-    // 初始化 Mesh
-     initMesh 
+##### 使用方法:
+      var playbutton = new VRVideoPlayer.PlayButton(vrvideo, {
+            size :70,
+      });
+
+
+#### 属性
+
+| 属性名称   |类型  |默认值  | 说明      |
+|------------|------|--------|-----------|
+|videoplay|VRVideoPlayer||播放器的引用|
+|options.playbtn_size| number|70| 播放图片大小|
+|options.src|string|"./img/play.png"| 图片地址|
+ 
+#### 事件
+
+| 名称   |参数  | 说明      |
+|------------|------|--------|-----------|
+|callback|undefined|点击回调事件|
 
