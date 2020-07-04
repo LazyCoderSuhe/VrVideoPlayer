@@ -1,0 +1,18 @@
+.btn_maxRadius {
+    transform: scale(1);
+    animation: myfirst 0.5s;
+    animation-fill-mode: forwards;
+}
+@keyframes myfirst
+{
+    0%{opacity:1;}
+    100% {transform: scale(2);opacity: 1;}
+}
+.btn_up {
+    animation: btn_up_flash 0.5s;
+}
+@keyframes btn_up_flash
+{
+    0%{opacity:1;}
+    100% {transform: scale(2);opacity: 1;}
+}

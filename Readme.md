@@ -5,7 +5,7 @@
 ### VRVideoPlayer
 项目基础依赖于Three.js ,同时使用了其中俩个插件 OrbitControls,DeviceOrientationControls,单已经对源代码进行了更改
 
-> 址用 实例: \
+> 实例: \
 > 1 引用 \
 > * three/build/three.js,
 > * controls/OrbitControls.js,
@@ -41,7 +41,7 @@
 #### 事件
 
 | 名称   |参数  | 说明      |
-|------------|------|--------|-----------|
+|------------|------|--------|
 |startplayEvent|null|开始播放|
 |loadstartEvent|null|开始加载|
 |endedEvent|null|播放结束|
@@ -99,6 +99,23 @@
 #### 事件
 
 | 名称   |参数  | 说明      |
-|------------|------|--------|-----------|
+|------------|------|--------|
 |callback|undefined|点击回调事件|
+### 1. VRPlayJoystick.js
+                              作者:李守峰 , LazyCoder 2020年7月4日 
+ > 遥感控制 相机 X Y 轴变换
+##### 使用方法:
+      var VRPlayJoystick = new VRVideoPlayer.VRPlayJoystick(vrvideo, {
+                maxdiv_display: false
+            });
+
+
+
+
+
+
+   
+# bug 修复 
+* <span style = "color:green"> setSrc : option 未定义问题 
+* <span style = "color:green">  修改 setRotateX 是 编译不正确问题
 

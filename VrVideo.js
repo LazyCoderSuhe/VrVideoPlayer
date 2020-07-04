@@ -364,7 +364,7 @@ var VRVideoPlayer = function (option) {
      */
     this.setSrc = function (_src) {
         scope.options.src = _src;
-        scope.options.video.src = scope.option.src;
+        scope.options.video.src = scope.options.src;
         scope.options.video.play();
     }
     /**
@@ -411,15 +411,15 @@ var VRVideoPlayer = function (option) {
      * @param {number} val 度
      */
     this.setRotateX = function (val) {
-        let v = scope.options.camera.rotation.x + DuToRadian(val);
-        console.info(scope.options.camera.rotation.x, DuToRadian(val))
+        let v = scope.options.camera.rotation.x + -DuToRadian(val);     
+
         if (v >= cPi) {
             scope.options.camera.rotateX(cPi - scope.options.camera.rotation.x);
         } else if (v <= -cPi) {
             scope.options.camera.rotateX(-cPi - scope.options.camera.rotation.x);
         }
         else {
-            scope.options.camera.rotateX(v);
+            scope.options.camera.rotateX(-DuToRadian(val));
         }
         mastupdateProjectionMatrix = true;
     };
@@ -434,14 +434,14 @@ var VRVideoPlayer = function (option) {
      * @param {number} val
      */
     this.setRotateY = function (val) {
-        scope.options.camera.rotateY(DuToRadian(val));
+        scope.options.mesh.rotateY(DuToRadian(val));
         mastupdateProjectionMatrix = true;
     }
     /**
      * 获取 Y 轴旋转角度
      * */
     this.getRotateY = function () {
-        return RadianToDu(scope.options.camera.rotation.y);
+        return RadianToDu(scope.options.mesh.rotation.y);
     };
     /**
     * 设置 Z轴 旋转

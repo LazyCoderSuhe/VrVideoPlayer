@@ -12,7 +12,7 @@ VRVideoPlayer.PlayButton = function (videoplay, option) {
     if (option.size != undefined) {
         this.options.playbtn_size = option.size;
     }
-    if (option.callback != undefined && callback != null && typeof callback === "function") {
+    if (option.callback != undefined && option.callback != null && typeof option.callback === "function") {
         this.options.callback = option.callback;
     }
     if (option.src != undefined) {
@@ -23,7 +23,7 @@ VRVideoPlayer.PlayButton = function (videoplay, option) {
     var divheight = videoplay.options.height;
     var imgbtn = document.createElement("img");
     imgbtn.src = scope.options.src;
-    imgbtn.style = "width:" + scope.options.playbtn_size + "px;height:" + scope.options.playbtn_size + "px;position: absolute;left:" + (divwidth - scope.options.playbtn_size) / 2 + "px;top:" + (divheight - scope.options.playbtn_size) / 2 + "px;";
+    imgbtn.style = "z-index:9999;width:" + scope.options.playbtn_size + "px;height:" + scope.options.playbtn_size + "px;position: absolute;left:" + (divwidth - scope.options.playbtn_size) / 2 + "px;top:" + (divheight - scope.options.playbtn_size) / 2 + "px;";
     function playvideo(e) {
         imgbtn.hidden = true;
         videoplay.play();
@@ -31,8 +31,8 @@ VRVideoPlayer.PlayButton = function (videoplay, option) {
             scope.options.callback();
         }
     }
-    imgbtn.addEventListener("mousedown",playvideo, false);
-    imgbtn.addEventListener("touchend",playvideo, false);
+    imgbtn.addEventListener("mousedown", playvideo, false);
+    imgbtn.addEventListener("touchend", playvideo, false);
     videoplay.options.container.appendChild(imgbtn);
     this.getstate = function () {
         return imgbtn.hidden;

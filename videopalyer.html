@@ -4,15 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+    <link href="css/yaogan.css" rel="stylesheet" />
     <title></title>
 </head>
-<body style=" width: 100%;
-        height: 100%;">
-    <div id="div" style=" width: 100%;
-        height: 100%;">
-
-    </div>
+<body style=" width: 100%;height: 100%;margin:0;">
+    <div id="div" style=" width: 100%;height: 100%;"></div>
     <script src="three/build/three.js"></script>
     <!--<script src="three/examples/js/controls/TrackballControls.js"></script>-->
     <script src="three/examples/js/controls/OrbitControls.js"></script>
@@ -20,19 +16,27 @@
 
     <script src="VrVideo.js"></script>
     <script src="plugins/VRPlayButton.js"></script>
+    <script src="plugins/VRPlayJoystick.js"></script>
     <script>
         var vrvideo = new VRVideoPlayer({
             eid: "div",
             src: "https://onespaceoss.oss-cn-beijing.aliyuncs.com/jingqu/d5yxn6jkugp.mp4",
             autoplay: false,
             istonchcontrol: true,
-            isdevicecontrol: false
+            isdevicecontrol: false,
+            autoAnimate: false
         });
-     
+
         var playbutton = new VRVideoPlayer.PlayButton(vrvideo, {
-            size :70,
+            size: 70,
+            callback: function () {
+                VRPlayJoystick.setstate(true);
+            }
         });
- 
+        var VRPlayJoystick = new VRVideoPlayer.VRPlayJoystick(vrvideo, {
+            maxdiv_display: false
+        });
+
     </script>
 </body>
 </html>
