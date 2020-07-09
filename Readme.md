@@ -11,6 +11,7 @@
 > * controls/OrbitControls.js,
 > * controls/DeviceOrientationControls.js
 > * VrVideo.js
+> * 移动网页
 
 ##### 代码:
 	<script>
@@ -134,7 +135,41 @@
     var VRCamera = new VRVideoPlayer.VRCamera(vrvideo, {
         camera_display: false,
     });
+
+
+
+### 5. VRPlayRuler.js
+                            作者:李守峰  苏和 2020年7月9日
+> 焦距处理,插件.VRPlayRuler
+> 可在VrVideoPlayer 右侧显示 刻度尺
+
+
+
+#### 属性
+
+
+| 属性名称   |类型  |默认值  | 说明      |
+|------------|------|--------|-----------|
+|options.canbox_right|number|10|canvas右边距|
+|options.kd_font_size| number|16| 刻度标数字体大小|
+|options.kd_color|color|'white'| 刻度标数颜色|
+|options.kd_right|number|30| 刻度标数右边距|
+|options.kd_top|number|30| 刻度标数上边距|
+|options.kd_show|bool|true|是否显示刻度标数true显示 false隐藏|
+|options.canbox_display|bool|true| 是否显示|
+
+ 
+
+
+##### 使用方法:
+    var VRPlayRuler = new VRVideoPlayer.VRPlayRuler(vrvideo, {
+      canbox_display: false
+    });
+
+
 # bug 修复 
 * <span style = "color:green"> setSrc : option 未定义问题 
 * <span style = "color:green">  修改 setRotateX 是 编译不正确问题
 
+# 为解决问题:
+* istonchcontrol :true 时 无法控制上下变换

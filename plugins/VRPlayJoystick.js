@@ -1,5 +1,5 @@
 ﻿/**
- * 
+ *
  * @param {any} videoplay
  * @param {any} option
  * {
@@ -15,6 +15,7 @@
  * btn_yg_left
  * }
  */
+
 VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     var scope = this;
     var divwidth = videoplay.options.width;
@@ -29,17 +30,17 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
     this.options = {
         start_event: function () {
-                 
+
             let cv = maxR / (scope.options.btn_width);
-       
+
             setint = setInterval(function () {
                 if (Math.abs(xpy) > saveLenght) {
                     videoplay.setRotateY(cv * xpy)
                 }
                 if (Math.abs(ypy) > saveLenght) {
                     videoplay.setRotateX(cv * ypy)
-                } 
-            },40)
+                }
+            }, 40)
         },
         move_event: function (x, y) {
         },
@@ -59,7 +60,7 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
         /*摇杆按钮*/
         btn: document.createElement("img"),
-        btn_width:60,
+        btn_width: 60,
         btn_height: 60,
         btn_src: "./img/zw.png",
         btn_yg_bottom: null,
@@ -67,9 +68,9 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
         /*摇杆按钮-箭头颜色 宽 高 透明度*/
         btn_up_bottom_left_right_color: "rgba(255,255,255,0.7)",
-        btn_up_bottom_left_right_width:3,
-        btn_up_bottom_left_right_height:3,
-        btn_up_bottom_left_right_opacity:0,
+        btn_up_bottom_left_right_width: 3,
+        btn_up_bottom_left_right_height: 3,
+        btn_up_bottom_left_right_opacity: 0,
 
         /*摇杆按钮-箭头↑*/
         btn_up: document.createElement("span"),
@@ -114,7 +115,7 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     if (option.maxdiv_display != undefined) {
         this.options.maxdiv_display = option.maxdiv_display;
     }
-    
+
     /*摇杆按钮 赋值*/
     if (option.btn_width != undefined) {
         this.options.btn_width = option.btn_width;
@@ -204,9 +205,9 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     }();
     //计算大圆
     var btn_maxRadius = function () {
-        scope.options.btn_maxRadius_width_height = scope.options.btn_width * 2 ;
+        scope.options.btn_maxRadius_width_height = scope.options.btn_width * 2;
         scope.options.btn_maxRadius_marginLeft = scope.options.btn_yg_left - 1;
-        scope.options.btn_maxRadius_marginBottom = scope.options.btn_yg_bottom - 1 ;
+        scope.options.btn_maxRadius_marginBottom = scope.options.btn_yg_bottom - 1;
     }();
 
 
@@ -216,7 +217,7 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     var x0, y0;
     var xpy, ypy;
     //手指按下时
-    var lsfontouchstart = function () { 
+    var lsfontouchstart = function () {
         scope.options.maxdiv.ontouchstart = function (e) {
             //获取点击焦点
             var touch = e.touches[0];
@@ -225,7 +226,7 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
             x0 = x;
             y0 = y;
-            
+
             //指纹按钮坐标
             //指纹按钮x位置 = 指纹触发大容器的左边距 - 指纹按钮宽度的一半
             var xx = x - scope.options.maxdiv_left - scope.options.btn_width / 2;
@@ -240,7 +241,7 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
 
             //大圆位置 = 指纹按钮的位置 - 2像素边框 - 大圆1/4
-            scope.options.btn_maxRadius.style.left = xx -1 + "px";
+            scope.options.btn_maxRadius.style.left = xx - 1 + "px";
             scope.options.btn_maxRadius.style.top = yy - 1 + "px";
             scope.options.btn_maxRadius.classList.add("btn_maxRadius");
 
@@ -281,25 +282,30 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
             scope.options.btn.style.top = t_uy + "px";
 
             //计算偏移量 = 初始坐标位置 - 当前坐标
-          var cxpy = x - x0;
-          var  cypy = y - y0;
+            var cxpy = x - x0;
+            var cypy = y - y0;
 
             var pf = Math.sqrt(cxpy * cxpy + cypy * cypy);
-            
+
             if (pf > scope.options.btn_width) {
                 let gg = scope.options.btn_width / pf;
                 cxpy = cxpy * gg;
                 cypy = cypy * gg;
-               
+
             }
             xpy = cxpy
             ypy = cypy
-          
+
         }
 
         scope.options.maxdiv.ontouchend = function (e) {
             //大圆位置 = 指纹按钮的位置 - 2像素边框 - 大圆1/4
             scope.options.btn_maxRadius.classList.remove("btn_maxRadius");
+
+            //指纹按钮归位
+            scope.options.btn.style.bottom = scope.options.btn_yg_bottom + "px";
+            scope.options.btn.style.left = scope.options.btn_yg_left + "px";
+            scope.options.btn.style.top = "auto";
 
             scope.options.end_event();
         }
@@ -307,11 +313,11 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
 
     }()
 
-    
+
 
     /*摇杆容器*/
     scope.options.maxdiv.style = "position:absolute;z-index:999;width:" + scope.options.maxdiv_width + "px;height:" +
-        scope.options.maxdiv_height + "px;left:" + scope.options.maxdiv_left + "px;top:" + scope.options.maxdiv_top + "px;opacity:" + scope.options.maxdiv_opacity + ";display:" + (scope.options.maxdiv_display?"block":"none");
+        scope.options.maxdiv_height + "px;left:" + scope.options.maxdiv_left + "px;top:" + scope.options.maxdiv_top + "px;opacity:" + scope.options.maxdiv_opacity + ";display:" + (scope.options.maxdiv_display ? "block" : "none");
     videoplay.options.container.appendChild(scope.options.maxdiv);
 
     /*摇杆按钮*/
@@ -321,19 +327,19 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     scope.options.maxdiv.appendChild(scope.options.btn);
 
     /*摇杆按钮-箭头↑*/
-    scope.options.btn_up.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(-45deg);display:block;position: relative;left:" + scope.options.btb_up_marginLeft + "px;top:" + scope.options.btb_up_marginBottom +"px;";
+    scope.options.btn_up.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(-45deg);display:block;position: relative;left:" + scope.options.btb_up_marginLeft + "px;top:" + scope.options.btb_up_marginBottom + "px;";
     scope.options.btn_maxRadius.appendChild(scope.options.btn_up);
 
     /*摇杆按钮-箭头 →*/
-    scope.options.btn_right.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(45deg);display:block;position:relative;top:" + scope.options.btn_right_marginBottom + "px;left:" + scope.options.btn_right_marginLeft+"px";
+    scope.options.btn_right.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(45deg);display:block;position:relative;top:" + scope.options.btn_right_marginBottom + "px;left:" + scope.options.btn_right_marginLeft + "px";
     scope.options.btn_maxRadius.appendChild(scope.options.btn_right);
 
     /*摇杆按钮-箭头 ↓*/
-    scope.options.btn_bottom.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(135deg);display:block;position:relative;left:" + scope.options.btn_bottom_marginLeft + "px;top:" + scope.options.btn_bottom_marginBottom+"px;"
+    scope.options.btn_bottom.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(135deg);display:block;position:relative;left:" + scope.options.btn_bottom_marginLeft + "px;top:" + scope.options.btn_bottom_marginBottom + "px;"
     scope.options.btn_maxRadius.appendChild(scope.options.btn_bottom);
 
     /*摇杆按钮-箭头 ←*/
-    scope.options.btn_left.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(-135deg);display:block;position:relative;top:" + scope.options.btn_left_marginBottom + "px;left:" + scope.options.btn_left_marginLeft+"px;"
+    scope.options.btn_left.style = "width:" + scope.options.btn_up_bottom_left_right_width + "px;height:" + scope.options.btn_up_bottom_left_right_width + "px;border-top:1px solid white;border-right: 1px solid white;transform: rotate(-135deg);display:block;position:relative;top:" + scope.options.btn_left_marginBottom + "px;left:" + scope.options.btn_left_marginLeft + "px;"
     scope.options.btn_maxRadius.appendChild(scope.options.btn_left);
 
     //摇杆按钮 大圆
@@ -354,12 +360,4 @@ VRVideoPlayer.VRPlayJoystick = function (videoplay, option) {
     this.getstate = function () {
         return scope.options.maxdiv_display
     }
-
-    
-
-   
-
-
-
-
 }

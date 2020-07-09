@@ -62,7 +62,7 @@
     scope.options.camera.appendChild(scope.options.btn);
 
     //点击拍照后事件
-    scope.options.canbox.ontouchend = function (e) {
+    scope.options.camera.ontouchend = function (e) {
         if (scope.options.callback != undefined) {
             scope.options.callback();
         }

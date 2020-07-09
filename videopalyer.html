@@ -17,12 +17,15 @@
     <script src="VrVideo.js"></script>
     <script src="plugins/VRPlayButton.js"></script>
     <script src="plugins/VRPlayJoystick.js"></script>
+    <script src="plugins/VRPlayRuler.js"></script>
+    <script src="plugins/VRCamera.js"></script>
     <script>
         var vrvideo = new VRVideoPlayer({
             eid: "div",
-            src: "https://onespaceoss.oss-cn-beijing.aliyuncs.com/jingqu/d5yxn6jkugp.mp4",
+            src: "1.mp4",
+        
             autoplay: false,
-            istonchcontrol: true,
+            istonchcontrol: false,
             isdevicecontrol: false,
             autoAnimate: false
         });
@@ -31,11 +34,18 @@
             size: 70,
             callback: function () {
                 VRPlayJoystick.setstate(true);
+                VRPlayRuler.setstate(true);
+                VRCamera.setstate(true);
             }
         });
         var VRPlayJoystick = new VRVideoPlayer.VRPlayJoystick(vrvideo, {
             maxdiv_display: false
         });
+
+        var VRPlayRuler = new VRVideoPlayer.VRPlayRuler(vrvideo, {
+            canbox_display: false
+        });
+
         var VRCamera = new VRVideoPlayer.VRCamera(vrvideo, {
             camera_display: false,
         });
