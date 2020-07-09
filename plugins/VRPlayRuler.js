@@ -237,7 +237,7 @@ VRVideoPlayer.VRPlayRuler = function (videoplay, option) {
         var t = (nowvalue * 0.6).toFixed(0);
         dqrotate = c2pi - mathpinumber * nowvalue;   //当前旋转角度 
 
-        videoplay.setFLength(nowvalue);
+        videoplay.setFLength(100-nowvalue);
         var t = (nowvalue * 0.6).toFixed(0);
         if (t >= 0 && t < 5) {
             scope.options.kd.innerText = "小行星";
