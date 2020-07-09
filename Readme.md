@@ -101,20 +101,39 @@
 | 名称   |参数  | 说明      |
 |------------|------|--------|
 |callback|undefined|点击回调事件|
-### 1. VRPlayJoystick.js
+### 2. VRPlayJoystick.js
                               作者:李守峰 , LazyCoder 2020年7月4日 
  > 遥感控制 相机 X Y 轴变换
+
+
+### 3. VRCamera.js
+                            作者:李守峰 2020年6月18日
+> 与服务端进离线交互,插件.VRCamera
+> 可在VrVideoPlayer 右侧显示 一个拍摄按钮
+
+
+
+#### 属性
+
+| 属性名称   |类型  |默认值  | 说明      |
+|------------|------|--------|-----------|
+|options.camera_width_height|number|70|按钮容器大小|
+|options.camera_border_radius| number|100| 播放图片大小|
+|options.camera_top|number|0| 边距 顶|
+|options.camera_right|number|30| 边距 右|
+|options.camera_display|bool|false| 是否显示|
+
+ 
+#### 事件
+
+| 名称   |参数  | 说明      |
+|------------|------|--------|
+|callback|undefined|点击回调事件|
+
 ##### 使用方法:
-      var VRPlayJoystick = new VRVideoPlayer.VRPlayJoystick(vrvideo, {
-                maxdiv_display: false
-            });
-
-
-
-
-
-
-   
+    var VRCamera = new VRVideoPlayer.VRCamera(vrvideo, {
+        camera_display: false,
+    });
 # bug 修复 
 * <span style = "color:green"> setSrc : option 未定义问题 
 * <span style = "color:green">  修改 setRotateX 是 编译不正确问题

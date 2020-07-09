@@ -3,16 +3,63 @@
     animation: myfirst 0.5s;
     animation-fill-mode: forwards;
 }
-@keyframes myfirst
-{
-    0%{opacity:1;}
-    100% {transform: scale(2);opacity: 1;}
+
+@keyframes myfirst {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 1;
+    }
 }
+
 .btn_up {
     animation: btn_up_flash 0.5s;
 }
-@keyframes btn_up_flash
-{
-    0%{opacity:1;}
-    100% {transform: scale(2);opacity: 1;}
+
+@keyframes btn_up_flash {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 1;
+    }
+}
+
+.kdshow {
+    animation: kdshow 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes kdshow {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.kdhide {
+    animation: kdhide 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes kdhide {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.camera_active:active {
+    transform: scale(1.2);
 }
